@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Blockchain-based Supply Chain</title>
+  <link href="./app.css" rel='stylesheet' type='text/css'>
+  <script src="./app.js"></script>
+</head>
+<body>
+  <h1>Supply Chain Dapp</h1>
+  <h4>Public Id : <span class="white"><span id="SenderBalance"></span> </h4>
+  
+  <div class="btn-group" id="form-selector" align="center">
+    <button type="button" class="btn1 btn-selector active" id="supplier-btn">Supplier</button>
+    <button type="button" class="btn1 btn-selector" id="manufacturer-btn">Manufacturer</button>
+    <button type="button" class="btn1 btn-selector" id="distributor-btn">Distributor</button>
+    <button type="button" class="btn1 btn-selector" id="retailer-btn">Retailer</button>
+    <button type="button" class="btn1 btn-selector" id="enquiry-btn">Enquiry</button>
+  </div>
+
+  <div class="form" id="supplier-form">
+    <h2 class="form-title">Material Info</h2>
+    <input type="text" class="input-std" id="sid" placeholder="Supplier Id">
+    <input type="text" class="input-std" id="sname" placeholder="Supplier Name">
+    <input type="text" class="input-std" id="sloc" placeholder="Location">
+    <input type="text" class="input-std" id="material" placeholder="Material">
+    <input type="text" class="input-std" id="scontact" placeholder="Phone">
+    <input type="text" class="input-std" id="sexprice" placeholder="Expected Price">
+    <button type="button" class="btn-submit" id="setvalue" onclick="setS()">Submit</button>
+    <span id="status"></span>
+  </div>
+
+  <div class="form" id="manufacturer-form">
+    <h2 class="form-title">Manufacturer Info</h2>
+    <input type="text" class="input-std" id="mid" placeholder="Manufacturer Id">
+    <input type="text" class="input-std" id="mname" placeholder="Manufacturer Name">
+    <input type="text" class="input-std" id="mloc" placeholder="Location">
+    <input type="text" class="input-std" id="mproduct" placeholder="Product Name">
+    <input type="text" class="input-std" id="mcontact" placeholder="Phone">
+    <input type="text" class="input-std" id="mexprice" placeholder="Expected Price">
+    <button type="button" class="btn-submit" id="setvalue" onclick="setM()">Submit</button>
+    <span id="status"></span>
+  </div>
+
+  <div class="form" id="distributor-form">
+    <h2 class="form-title">Shipping Info</h2>
+    <input type="text" class="input-std" id="did" placeholder="Distributor Id">
+    <input type="text" class="input-std" id="dname" placeholder="Distributor Name">
+    <input type="text" class="input-std" id="dproduct" placeholder="Product Name">
+    <input type="text" class="input-std" id="dcontact" placeholder="Phone">
+    <input type="text" class="input-std" id="origin" placeholder="Origin">
+    <input type="text" class="input-std" id="destination" placeholder="Destination">
+    <button type="button" class="btn-submit" id="setvalue" onclick="setD()">Submit</button>
+    <span id="status"></span>
+  </div>
+
+  <div class="form" id="retailer-form">
+    <h2 class="form-title">Goods Info</h2>
+    <input type="text" class="input-std" id="rid" placeholder="Retailer Id">
+    <input type="text" class="input-std" id="rname" placeholder="Retailer Name">
+    <input type="text" class="input-std" id="rloc" placeholder="Location">
+    <input type="text" class="input-std" id="rproduct" placeholder="Product Name">
+    <input type="text" class="input-std" id="rcontact" placeholder="Phone">
+    <input type="text" class="input-std" id="rexprice" placeholder="Expected Price">
+    <button type="button" class="btn-submit" id="setvalue" onclick="setR()">Submit</button>
+    <span id="status"></span>
+  </div>
+  
+  
+  <div class="form" id="enquiry-form">
+  <h2 class="form-title">Enquiry</h2>
+    
+    
+  <br>
+  <table>  
+  <input type="text" class="input-std" id="id1" placeholder="ID">
+  <tr><td><b><label class="black" id="label1">Person in Charge</label></td><td>:</td></b><td><span class="black" span id="getval2"></span></td></tr>
+  <tr><td><b><label class="black" id="label2">Product</label></td><td>:</td></b><td><span class="black" span id="getval4"></span></td></tr>
+  <tr><td><b><label class="black" id="label3">Phone</label></td><td>:</td></b><td><span class="black" span id="getval5"></span></td></tr>
+  <tr><td><b><label class="black" id="label4">Location</label></td><td>:</td></b><td><span class="black" span id="getval3"></span></td></tr>
+  <tr><td><b><label class="black" id="label5">Expected Price</label></td><td>:</td></b><td><span class="black" span id="getval6"></span></td></tr>
+
+  </table>  
+  <button type="button" class="btn-submit" id="getvalue" onclick="get();">Get Value</button>
+     
+  <br><br>
+  
+  <table align="center"> 
+  <tr>
+  <td><button type="button" id="printBlock" class="btn btn-selector" onclick="printBlock()">Print Block</button></td>
+  <td><button type="button" id="printTransaction" class="btn btn-selector" onclick="printTransaction()">Print Transaction</button></td></tr>
+  </table> 
+ 
+  <br>
+  <h4> Block Number : <span class="blockclass" span id="blocknum"> </span></h4>
+  <br>
+
+
+<button type="button" class="btn-submit1" id="approve-btn" align="center" font="20px">Approve Details</button>
+
+  <span id="status"></span>
+
+ </div>
+  
+
+<div class="form" id="approve-form">
+    <h2 class="form-title">Details</h2>
+    <input type="text" class="input-std" id="lotno" placeholder="Lot Number">
+    <input type="text" class="input-std" id="grade" placeholder="Grade">
+    <input type="text" class="input-std" id="mrp" placeholder="MRP">
+    <input type="text" class="input-std" id="testdate" placeholder="Test Date">
+    <input type="text" class="input-std" id="expdate" placeholder="Expiry Date">
+    
+    <button type="button" class="btn-submit" id="setvalue" onclick="setQ()">Submit</button>
+    
+    <span id="status"></span> 
+
+  </div>
+  
+<!--   
+  <div class="form" id="payments-form">
+    <h2 class="form-title">Customer</h2>
+    <table>  
+    <input type="text" class="input-std" id="getfid" placeholder="Farmer Id">
+    <tr><td><b><label class = "black">Farmer Id</label></td><td>:</td></b><td><span class="black" span id="cgetval1"></span></td></tr>
+    <tr><td><b><label class = "black">Farmer Name</label></td><td>:</td></b><td><span class="black" span id="cgetval2"></span></td></tr>
+    <tr><td><b><label class = "black">Location</label></td><td>:</td></b><td><span class="black" span id="cgetval3"></span></td></tr>
+    <tr><td><b><label class = "black">Crop</label></td><td>:</td></b><td><span class="black" span id="cgetval4"></span></td></tr>
+    <tr><td><b><label class = "black">Phone</label></td><td>:</td></b><td><span class="black" span id="cgetval5"></span></td></tr>
+    <tr><td><b><label class = "black">Quantity</label></td><td>:</td></b><td><span class="black" span id="cgetval6"></span></td></tr>
+    <tr><td><b><label class = "black">Expected price</label><td>:</td></td></b><td><span class="black" span id="cgetval7"></span></td></tr>
+
+    <input type="text" class="input-std" id="lotnum" placeholder="Lot number">
+    <tr><td><b><label class = "black">Lot Number</label><td>:</td></td></b><td><span class="black" span id="cgetval8"></span></td></tr>
+    <tr><td><b><label class = "black">Grade</label><td>:</td></td></b><td><span class="black" span id="cgetval9"></span></td></tr>
+    <tr><td><b><label class = "black">MRP</label><td>:</td></td></b><td><span class="black" span id="cgetval10"></span></td></tr>
+    <tr><td><b><label class = "black">Test Date</label><td>:</td></td></b><td><span class="black" span id="cgetval11"></span></td></tr>
+    <tr><td><b><label class = "black">Expiry Date</label><td>:</td></td></b><td><span class="black" span id="cgetval12"></span></td></tr>
+    </table>
+    <button type="button" class="btn-submit" id="getcustval" onclick="getQ();cgetQ();">Get Value</button>
+  </div>
+
+  <div class="form" id="finance-form">
+    <h2 class="form-title">Micro-Finance</h2>
+    
+
+    <input type="text" class="input-std" id="pfid" placeholder="Farmer Public Id">
+    <input type="text" class="input-std" id="lotnum" placeholder="Lot Number">
+    <input type="text" class="input-std" id="amount" placeholder="Fund Amount">
+    <table>
+    <tr><td><b><label class = "black">Balance</label></td><td>:</td></b><td><span class="black"><span class="black" span id="balance"></span>$</span></td></tr>
+    
+    </table>
+    <button type="button" class="btn-submit" id="getfund" onclick="fund()">Fund Farmer</button>
+    
+    <span id="status"></span>
+  </div>
+ -->
+
+  
+  <link href="./app.css" rel='stylesheet' type='text/css'>
+  <script src="./app.js"></script>
+ 
+</body>
+</html>
