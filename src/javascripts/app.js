@@ -113,8 +113,8 @@ $("#approve-btn").click(function(){
 var accounts;
 var account;
 
-function setStatus(message) {
-    var status = document.getElementById("status");
+function setStatus(message, id) {
+    var status = document.getElementById(id);
     status.innerHTML = message;
 };
 
@@ -131,22 +131,22 @@ function setS(){
     var contact = parseInt(document.getElementById("scontact").value);
     var exprice = parseInt(document.getElementById("sexprice").value);
 
-    setStatus("Initiating transaction... (please wait)");
+    setStatus("Initiating transaction... (please wait)", "status1");
 
     metaset.mat( sid,sname,loc,material,contact,exprice, {from: account,gas:400000}).then(function() {
     
-        setStatus("Transaction complete!");
-        // $("#supplier-form").hide();
-        // $("#check-form").show();
+        setStatus("Transaction complete!", "status1");
+        $("#supplier-form").hide();
+        $("#manufacturer-form").show();
         // $("#payments-form").hide();
 
-        // $("#supplier-btn").removeClass("active");
-        // $("#enquiry-btn").addClass("active");
+        $("#supplier-btn").removeClass("active");
+        $("#manufacturer-btn").addClass("active");
         // $("#customer-btn").removeClass("active");
 
     }).catch(function(e) {
         console.log(e);
-        setStatus("Error setting value; see log.");
+        setStatus("Error setting value; see log.", "status1");
     });
 
     // metaset.fundaddr(parseInt(account), {from: account,gas:1000000}).then(function() {
@@ -158,11 +158,11 @@ function setS(){
     //     setStatus("Error setting value; see log.");
     // });
 
-    setTimeout(function(){
+    // setTimeout(function(){
         	
-        refresh();
+    //     refresh();
         					  
-    }, 8000);
+    // }, 8000);
 
 };
 
@@ -179,22 +179,22 @@ function setM(){
     var mcontact = parseInt(document.getElementById("mcontact").value);
     var mexprice = parseInt(document.getElementById("mexprice").value);
 
-    setStatus("Initiating transaction... (please wait)");
+    setStatus("Initiating transaction... (please wait)", "status2");
 
     metaset.pro( mid,mname,mloc,mproduct,mcontact,mexprice, {from: account,gas:400000}).then(function() {
     
-        setStatus("Transaction complete!");
-        $("#supplier-form").hide();
-        $("#manufacturer-form").show();
+        setStatus("Transaction complete!", "status2");
+        $("#manufacturer-form").hide();
+        $("#distributor-form").show();
         // $("#payments-form").hide();
 
-        $("#supplier-btn").removeClass("active");
-        $("#manufacturer-btn").addClass("active");
+        $("#manufacturer-btn").removeClass("active");
+        $("#distributor-btn").addClass("active");
         // $("#customer-btn").removeClass("active");
 
     }).catch(function(e) {
         console.log(e);
-        setStatus("Error setting value; see log.");
+        setStatus("Error setting value; see log.", "status2");
     });
 }
 
@@ -211,22 +211,22 @@ function setD(){
     var origin = document.getElementById("origin").value;
     var destination = document.getElementById("destination").value;
 
-    setStatus("Initiating transaction... (please wait)");
+    setStatus("Initiating transaction... (please wait)", "status3");
 
     metaset.ship_info( did,dname,dproduct,dproduct,origin, destination, {from: account,gas:400000}).then(function() {
     
-        setStatus("Transaction complete!");
-        // $("#supplier-form").hide();
-        // $("#check-form").show();
+        setStatus("Transaction complete!", "status3");
+        $("#distributor-form").hide();
+        $("#retailer-form").show();
         // $("#payments-form").hide();
 
-        // $("#supplier-btn").removeClass("active");
-        // $("#enquiry-btn").addClass("active");
+        $("#distributor-btn").removeClass("active");
+        $("#retailer-btn").addClass("active");
         // $("#customer-btn").removeClass("active");
 
     }).catch(function(e) {
         console.log(e);
-        setStatus("Error setting value; see log.");
+        setStatus("Error setting value; see log.", "status3");
     });
 }
 
@@ -243,22 +243,22 @@ function setR(){
     var rcontact = parseInt(document.getElementById("rcontact").value);
     var rexprice = parseInt(document.getElementById("rexprice").value);
 
-    setStatus("Initiating transaction... (please wait)");
+    setStatus("Initiating transaction... (please wait)", "status4");
 
     metaset.goods( rid,rname,rloc,rproduct,rcontact,rexprice, {from: account,gas:400000}).then(function() {
     
-        setStatus("Transaction complete!");
-        // $("#supplier-form").hide();
-        // $("#check-form").show();
+        setStatus("Transaction complete!", "status4");
+        $("#retailer-form").hide();
+        $("#enquiry-form").show();
         // $("#payments-form").hide();
 
-        // $("#supplier-btn").removeClass("active");
-        // $("#enquiry-btn").addClass("active");
+        $("#retailer-btn").removeClass("active");
+        $("#enquiry-btn").addClass("active");
         // $("#customer-btn").removeClass("active");
 
     }).catch(function(e) {
         console.log(e);
-        setStatus("Error setting value; see log.");
+        setStatus("Error setting value; see log.", "status4");
     });
 }
 
@@ -307,10 +307,10 @@ function get(){
 
     var id = document.getElementById("id1").value;
 
-    setStatus("Initiating transaction... (please wait)");
+    setStatus("Initiating transaction... (please wait)", "status5");
 
     if (id.startsWith('S')) {
-        metaget.getproduce.call( id, {from: account}).then(function(value) {
+        metaget.getmat.call( id, {from: account}).then(function(value) {
         
             var span_element2 = document.getElementById("getval2");
             var str = web3.toAscii(value[1]);
@@ -330,11 +330,11 @@ function get(){
             var span_element6 = document.getElementById("getval6");
             span_element6.innerHTML = value[5].valueOf();
          
-            setStatus("Transaction complete!");
+            setStatus("Transaction complete!", "status5");
         
         }).catch(function(e) {
             console.log(e);
-            setStatus("Error getting value; see log.");
+            setStatus("Error getting value; see log.", "status5");
         });
     } else if (id.startsWith('M')) {
         metaget.getpro.call( id, {from: account}).then(function(value) {
@@ -357,11 +357,11 @@ function get(){
             var span_element6 = document.getElementById("getval6");
             span_element6.innerHTML = value[5].valueOf();
          
-            setStatus("Transaction complete!");
+            setStatus("Transaction complete!", "status5");
         
         }).catch(function(e) {
             console.log(e);
-            setStatus("Error getting value; see log.");
+            setStatus("Error getting value; see log.", "status5");
         });
     } else if (id.startsWith('D')) {
         metaget.getshipinfo.call( id, {from: account}).then(function(value) {
@@ -393,11 +393,11 @@ function get(){
             var span_element6 = document.getElementById("getval6");
             span_element6.innerHTML = value[5].valueOf();
          
-            setStatus("Transaction complete!");
+            setStatus("Transaction complete!", "status5");
         
         }).catch(function(e) {
             console.log(e);
-            setStatus("Error getting value; see log.");
+            setStatus("Error getting value; see log.", "status5");
         });
     } else if (id.startsWith('R')) {
         metaget.getgoods.call( id, {from: account}).then(function(value) {
@@ -420,11 +420,11 @@ function get(){
             var span_element6 = document.getElementById("getval6");
             span_element6.innerHTML = value[5].valueOf();
          
-            setStatus("Transaction complete!");
+            setStatus("Transaction complete!", "status5");
         
         }).catch(function(e) {
             console.log(e);
-            setStatus("Error getting value; see log.");
+            setStatus("Error getting value; see log.", "status5");
         });
     }
     
@@ -441,10 +441,10 @@ function setQ(){
     var expdate = document.getElementById("expdate").value;
 
 
-    setStatus("Initiating transaction... (please wait)");
+    setStatus("Initiating transaction... (please wait)", "status5");
 
     metaset.quality( lotno,grade,mrp,testdate,expdate, {from: account,gas:400000}).then(function() {
-        setStatus("Transaction complete!");
+        setStatus("Transaction complete!", "status5");
     	
         $("#supplier-form").hide();
         $("#check-form").hide();
@@ -459,7 +459,7 @@ function setQ(){
         
     }).catch(function(e) {
         console.log(e);
-        setStatus("Error setting value; see log.");
+        setStatus("Error setting value; see log.", "status5");
     });
 
  
@@ -609,8 +609,8 @@ function printBlock() {
 
 
 window.onload = function() {
-	$("#manufacturer-form").hide();
-	$("#distributor-form").hide();
+    $("#manufacturer-form").hide();
+    $("#distributor-form").hide();
     $("#retailer-form").hide();
     $("#enquiry-form").hide();
     $("#approve-form").hide();

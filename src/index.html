@@ -3,7 +3,7 @@
 <head>
   <title>Blockchain-based Supply Chain</title>
   <link href="./app.css" rel='stylesheet' type='text/css'>
-  <script src="./app.js"></script>
+  <!-- <script src="./app.js"></script> -->
 </head>
 <body>
   <h1>Supply Chain Dapp</h1>
@@ -25,8 +25,8 @@
     <input type="text" class="input-std" id="material" placeholder="Material">
     <input type="text" class="input-std" id="scontact" placeholder="Phone">
     <input type="text" class="input-std" id="sexprice" placeholder="Expected Price">
-    <button type="button" class="btn-submit" id="setvalue" onclick="setS()">Submit</button>
-    <span id="status"></span>
+    <button type="button" class="btn-submit" id="submit-s">Submit</button>
+    <span id="status1"></span>
   </div>
 
   <div class="form" id="manufacturer-form">
@@ -37,8 +37,8 @@
     <input type="text" class="input-std" id="mproduct" placeholder="Product Name">
     <input type="text" class="input-std" id="mcontact" placeholder="Phone">
     <input type="text" class="input-std" id="mexprice" placeholder="Expected Price">
-    <button type="button" class="btn-submit" id="setvalue" onclick="setM()">Submit</button>
-    <span id="status"></span>
+    <button type="button" class="btn-submit" id="submit-m">Submit</button>
+    <span id="status2"></span>
   </div>
 
   <div class="form" id="distributor-form">
@@ -49,8 +49,8 @@
     <input type="text" class="input-std" id="dcontact" placeholder="Phone">
     <input type="text" class="input-std" id="origin" placeholder="Origin">
     <input type="text" class="input-std" id="destination" placeholder="Destination">
-    <button type="button" class="btn-submit" id="setvalue" onclick="setD()">Submit</button>
-    <span id="status"></span>
+    <button type="button" class="btn-submit" id="submit-d">Submit</button>
+    <span id="status3"></span>
   </div>
 
   <div class="form" id="retailer-form">
@@ -61,8 +61,8 @@
     <input type="text" class="input-std" id="rproduct" placeholder="Product Name">
     <input type="text" class="input-std" id="rcontact" placeholder="Phone">
     <input type="text" class="input-std" id="rexprice" placeholder="Expected Price">
-    <button type="button" class="btn-submit" id="setvalue" onclick="setR()">Submit</button>
-    <span id="status"></span>
+    <button type="button" class="btn-submit" id="submit-r">Submit</button>
+    <span id="status4"></span>
   </div>
   
   
@@ -73,21 +73,21 @@
   <br>
   <table>  
   <input type="text" class="input-std" id="id1" placeholder="ID">
-  <tr><td><b><label class="black" id="label1">Person in Charge</label></td><td>:</td></b><td><span class="black" span id="getval2"></span></td></tr>
-  <tr><td><b><label class="black" id="label2">Product</label></td><td>:</td></b><td><span class="black" span id="getval4"></span></td></tr>
-  <tr><td><b><label class="black" id="label3">Phone</label></td><td>:</td></b><td><span class="black" span id="getval5"></span></td></tr>
-  <tr><td><b><label class="black" id="label4">Location</label></td><td>:</td></b><td><span class="black" span id="getval3"></span></td></tr>
-  <tr><td><b><label class="black" id="label5">Expected Price</label></td><td>:</td></b><td><span class="black" span id="getval6"></span></td></tr>
+  <tr><td><b><label class="white1" id="label1">Person in Charge</label></td><td class="white1">:</td></b><td><span class="white1" span id="getval2"></span></td></tr>
+  <tr><td><b><label class="white1" id="label2">Product</label></td><td class="white1">:</td></b><td><span class="white1" span id="getval4"></span></td></tr>
+  <tr><td><b><label class="white1" id="label3">Phone</label></td><td class="white1">:</td></b><td><span class="white1" span id="getval5"></span></td></tr>
+  <tr><td><b><label class="white1" id="label4">Location</label></td><td class="white1">:</td></b><td><span class="white1" span id="getval3"></span></td></tr>
+  <tr><td><b><label class="white1" id="label5">Expected Price</label></td><td class="white1">:</td></b><td><span class="white1" span id="getval6"></span></td></tr>
 
   </table>  
-  <button type="button" class="btn-submit" id="getvalue" onclick="get();">Get Value</button>
+  <button type="button" class="btn-submit" id="query">Query</button>
      
   <br><br>
   
   <table align="center"> 
   <tr>
-  <td><button type="button" id="printBlock" class="btn btn-selector" onclick="printBlock()">Print Block</button></td>
-  <td><button type="button" id="printTransaction" class="btn btn-selector" onclick="printTransaction()">Print Transaction</button></td></tr>
+  <td><button type="button" id="printBlock" class="btn btn-selector">Print Block</button></td>
+  <td><button type="button" id="printTransaction" class="btn btn-selector">Print Transaction</button></td></tr>
   </table> 
  
   <br>
@@ -97,7 +97,7 @@
 
 <button type="button" class="btn-submit1" id="approve-btn" align="center" font="20px">Approve Details</button>
 
-  <span id="status"></span>
+  <span id="status5"></span>
 
  </div>
   
@@ -110,9 +110,9 @@
     <input type="text" class="input-std" id="testdate" placeholder="Test Date">
     <input type="text" class="input-std" id="expdate" placeholder="Expiry Date">
     
-    <button type="button" class="btn-submit" id="setvalue" onclick="setQ()">Submit</button>
+    <button type="button" class="btn-submit" id="approve">Approve</button>
     
-    <span id="status"></span> 
+    <span id="status5"></span> 
 
   </div>
   
@@ -121,20 +121,20 @@
     <h2 class="form-title">Customer</h2>
     <table>  
     <input type="text" class="input-std" id="getfid" placeholder="Farmer Id">
-    <tr><td><b><label class = "black">Farmer Id</label></td><td>:</td></b><td><span class="black" span id="cgetval1"></span></td></tr>
-    <tr><td><b><label class = "black">Farmer Name</label></td><td>:</td></b><td><span class="black" span id="cgetval2"></span></td></tr>
-    <tr><td><b><label class = "black">Location</label></td><td>:</td></b><td><span class="black" span id="cgetval3"></span></td></tr>
-    <tr><td><b><label class = "black">Crop</label></td><td>:</td></b><td><span class="black" span id="cgetval4"></span></td></tr>
-    <tr><td><b><label class = "black">Phone</label></td><td>:</td></b><td><span class="black" span id="cgetval5"></span></td></tr>
-    <tr><td><b><label class = "black">Quantity</label></td><td>:</td></b><td><span class="black" span id="cgetval6"></span></td></tr>
-    <tr><td><b><label class = "black">Expected price</label><td>:</td></td></b><td><span class="black" span id="cgetval7"></span></td></tr>
+    <tr><td><b><label class = "white1">Farmer Id</label></td><td>:</td></b><td><span class="white1" span id="cgetval1"></span></td></tr>
+    <tr><td><b><label class = "white1">Farmer Name</label></td><td>:</td></b><td><span class="white1" span id="cgetval2"></span></td></tr>
+    <tr><td><b><label class = "white1">Location</label></td><td>:</td></b><td><span class="white1" span id="cgetval3"></span></td></tr>
+    <tr><td><b><label class = "white1">Crop</label></td><td>:</td></b><td><span class="white1" span id="cgetval4"></span></td></tr>
+    <tr><td><b><label class = "white1">Phone</label></td><td>:</td></b><td><span class="white1" span id="cgetval5"></span></td></tr>
+    <tr><td><b><label class = "white1">Quantity</label></td><td>:</td></b><td><span class="white1" span id="cgetval6"></span></td></tr>
+    <tr><td><b><label class = "white1">Expected price</label><td>:</td></td></b><td><span class="white1" span id="cgetval7"></span></td></tr>
 
     <input type="text" class="input-std" id="lotnum" placeholder="Lot number">
-    <tr><td><b><label class = "black">Lot Number</label><td>:</td></td></b><td><span class="black" span id="cgetval8"></span></td></tr>
-    <tr><td><b><label class = "black">Grade</label><td>:</td></td></b><td><span class="black" span id="cgetval9"></span></td></tr>
-    <tr><td><b><label class = "black">MRP</label><td>:</td></td></b><td><span class="black" span id="cgetval10"></span></td></tr>
-    <tr><td><b><label class = "black">Test Date</label><td>:</td></td></b><td><span class="black" span id="cgetval11"></span></td></tr>
-    <tr><td><b><label class = "black">Expiry Date</label><td>:</td></td></b><td><span class="black" span id="cgetval12"></span></td></tr>
+    <tr><td><b><label class = "white1">Lot Number</label><td>:</td></td></b><td><span class="white1" span id="cgetval8"></span></td></tr>
+    <tr><td><b><label class = "white1">Grade</label><td>:</td></td></b><td><span class="white1" span id="cgetval9"></span></td></tr>
+    <tr><td><b><label class = "white1">MRP</label><td>:</td></td></b><td><span class="white1" span id="cgetval10"></span></td></tr>
+    <tr><td><b><label class = "white1">Test Date</label><td>:</td></td></b><td><span class="white1" span id="cgetval11"></span></td></tr>
+    <tr><td><b><label class = "white1">Expiry Date</label><td>:</td></td></b><td><span class="white1" span id="cgetval12"></span></td></tr>
     </table>
     <button type="button" class="btn-submit" id="getcustval" onclick="getQ();cgetQ();">Get Value</button>
   </div>
@@ -147,7 +147,7 @@
     <input type="text" class="input-std" id="lotnum" placeholder="Lot Number">
     <input type="text" class="input-std" id="amount" placeholder="Fund Amount">
     <table>
-    <tr><td><b><label class = "black">Balance</label></td><td>:</td></b><td><span class="black"><span class="black" span id="balance"></span>$</span></td></tr>
+    <tr><td><b><label class = "white1">Balance</label></td><td>:</td></b><td><span class="white1"><span class="white1" span id="balance"></span>$</span></td></tr>
     
     </table>
     <button type="button" class="btn-submit" id="getfund" onclick="fund()">Fund Farmer</button>
@@ -158,7 +158,11 @@
 
   
   <link href="./app.css" rel='stylesheet' type='text/css'>
-  <script src="./app.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/web3.min.js"></script>
+  <script src="js/truffle-contract.js"></script>
+  <script src="js/app.js"></script>
+  <!-- <script src="./app.js"></script> -->
  
 </body>
 </html>

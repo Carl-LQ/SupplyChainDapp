@@ -9,27 +9,27 @@ contract StructStorage {
     uint public t = 1;
     uint c;
 
-    mapping (address => uint) balances;
+    // mapping (address => uint) balances;
 
-    function fundaddr(address addr) public{
-        balances[addr] = 2000;
-    }
+    // function fundaddr(address addr) public{
+    //     balances[addr] = 2000;
+    // }
 
-    function sendCoin(address receiver, uint amount, address sender) public returns(bool sufficient){
+    // function sendCoin(address receiver, uint amount, address sender) public returns(bool sufficient){
         
-        if (balances[sender] < amount) 
-            return false;
+    //     if (balances[sender] < amount) 
+    //         return false;
 
-        balances[sender] -= amount;
-        balances[receiver] += amount;
+    //     balances[sender] -= amount;
+    //     balances[receiver] += amount;
         
                         
-        return true;
-    }
+    //     return true;
+    // }
 
-    function getBalance(address addr) view public returns(uint) {
-        return balances[addr];
-    }
+    // function getBalance(address addr) view public returns(uint) {
+    //     return balances[addr];
+    // }
 
     struct supplier {
         bytes sid;
@@ -157,8 +157,8 @@ contract StructStorage {
       
     }
 
-    function getquality(bytes memory k) public view returns(bytes memory,bytes memory,uint,bytes32,bytes32) {
-        return(l1[k].lotno,l1[k].grade,l1[k].mrp,l1[k].testdate,l1[k].expdate);
+    // function getquality(bytes memory k) public view returns(bytes memory,bytes memory,uint,bytes32,bytes32) {
+    //     return(l1[k].lotno, l1[k].grade, l1[k].mrp, l1[k].testdate, l1[k].expdate);
          
-    }
+    // }
 }
