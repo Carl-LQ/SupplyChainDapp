@@ -54,11 +54,11 @@ App = {
   },
 
   initContract: function() {
-     $.getJSON('StructStorage.json', function(data) {
-        var StructStorageArtifact = data;
-        App.contracts.StructStorage = TruffleContract(StructStorageArtifact);
+     $.getJSON('SupplyChain.json', function(data) {
+        var SupplyChainArtifact = data;
+        App.contracts.SupplyChain = TruffleContract(SupplyChainArtifact);
 
-        App.contracts.StructStorage.setProvider(App.web3Provider);
+        App.contracts.SupplyChain.setProvider(App.web3Provider);
      });
 
     return App.bindEvents();
@@ -303,7 +303,7 @@ App = {
 
       var account = accounts[0];
 
-      App.contracts.StructStorage.deployed().then(function(instance) {
+      App.contracts.SupplyChain.deployed().then(function(instance) {
         metaset = instance;
         metaset.mat(sid,sname,loc,material,contact,exprice, {from: account, gas:400000});
       }).then(function(){
@@ -354,7 +354,7 @@ App = {
 
       var account = accounts[0];
 
-      App.contracts.StructStorage.deployed().then(function(instance) {
+      App.contracts.SupplyChain.deployed().then(function(instance) {
         metaset = instance;
         metaset.pro(mid,mname,mloc,mproduct,mcontact,mexprice, {from: account, gas:400000});
       }).then(function() {
@@ -404,7 +404,7 @@ App = {
 
       var account = accounts[0];
 
-      App.contracts.StructStorage.deployed().then(function(instance) {
+      App.contracts.SupplyChain.deployed().then(function(instance) {
         metaset = instance;
         metaset.ship_info(did,dname,dproduct,dcontact,origin, destination, {from: account, gas:400000});
       }).then(function() {
@@ -454,7 +454,7 @@ App = {
 
       var account = accounts[0];
 
-      App.contracts.StructStorage.deployed().then(function(instance) {
+      App.contracts.SupplyChain.deployed().then(function(instance) {
         metaset = instance;
         metaset.goods( rid,rname,rloc,rproduct,rcontact,rexprice, {from: account,gas:400000});
       }).then(function() {
@@ -494,7 +494,7 @@ App = {
       var account = accounts[0];
 
       if (id.startsWith('S')) {
-        App.contracts.StructStorage.deployed().then(function(instance) {
+        App.contracts.SupplyChain.deployed().then(function(instance) {
           metaget = instance;
           return metaget.getmat.call(id, {from: account});
         }).then(function(value) {
@@ -504,7 +504,7 @@ App = {
           App.setStatus("Error getting value; see log.", "status5");
         });
       } else if (id.startsWith('M')) {
-        App.contracts.StructStorage.deployed().then(function(instance) {
+        App.contracts.SupplyChain.deployed().then(function(instance) {
           metaget = instance;
           return metaget.getpro.call(id, {from: account});
         }).then(function(value){
@@ -514,7 +514,7 @@ App = {
           App.setStatus("Error getting value; see log.", "status5");
         });
       } else if (id.startsWith('D')) {
-        App.contracts.StructStorage.deployed().then(function(instance) {
+        App.contracts.SupplyChain.deployed().then(function(instance) {
           metaget = instance;
           return metaget.getshipinfo.call(id, {from: account});
         }).then(function(value) {
@@ -550,7 +550,7 @@ App = {
           App.setStatus("Error getting value; see log.", "status5");
         });
       } else if (id.startsWith('R')) {
-        App.contracts.StructStorage.deployed().then(function(instance) {
+        App.contracts.SupplyChain.deployed().then(function(instance) {
           metaget = instance;
           return metaget.getgoods.call(id, {from: account});
         }).then(function(value) {
@@ -626,7 +626,7 @@ App = {
 
       var account = accounts[0];
 
-      App.contracts.StructStorage.deployed().then(function(instance) {
+      App.contracts.SupplyChain.deployed().then(function(instance) {
         metaset = instance;
         metaset.quality( lotno,grade,mrp,testdate,expdate, {from: account,gas:400000});
       }).then(function() {
@@ -673,7 +673,7 @@ App = {
 
       var account = accounts[0];
 
-      App.contracts.StructStorage.deployed().then(function(instance) {
+      App.contracts.SupplyChain.deployed().then(function(instance) {
         metaget = instance;
         return metaget.getcert.call(lotno, {from: account});
       }).then(function(value) {

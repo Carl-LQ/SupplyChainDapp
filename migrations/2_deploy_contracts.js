@@ -1,6 +1,6 @@
-var StructStorage = artifacts.require("StructStorage");
+var SupplyChain = artifacts.require("SupplyChain");
 module.exports = function(deployer) {
   
-  deployer.deploy(StructStorage);
+  deployer.deploy(SupplyChain);
  
 };
