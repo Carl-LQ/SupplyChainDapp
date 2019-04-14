@@ -30,26 +30,42 @@ App = {
     web3 = new Web3(App.web3Provider);
 
 
+    web3.eth.getAccounts(function(err, accs) {
+      if (err != null) {
+        alert("There was an error fetching your accounts.");
+        return;
+      }
+
+      if (accs.length == 0) {
+        alert("Couldn't get any accounts! Make sure your Ethereum client is configured correctly.");
+        return;
+      }
+
+      var accounts = accs;
+      var account = accounts[0];
+      
+      var from_address = document.getElementById("SenderBalance");
+      from_address.innerHTML = web3.eth.accounts[0].valueOf(); 
+
+    });
+
+
     return App.initContract();
   },
 
   initContract: function() {
-    /*
-     * Replace me...
-     */
      $.getJSON('StructStorage.json', function(data) {
         var StructStorageArtifact = data;
         App.contracts.StructStorage = TruffleContract(StructStorageArtifact);
 
         App.contracts.StructStorage.setProvider(App.web3Provider);
-        // return App.markAdopted();
      });
 
     return App.bindEvents();
   },
 
   bindEvents: function() {
-    // $(document).on('click', '.btn-adopt', App.handleAdopt);
+
     $("#supplier-btn").on('click', function(){
 
       $("#supplier-form").show();
@@ -57,14 +73,16 @@ App = {
       $("#distributor-form").hide();
       $("#retailer-form").hide();
       $("#enquiry-form").hide();
-      $("#approve-form").hide();
-     
+      $("#prove-form").hide();
+      $("#certificate-form").hide();
+
       $("#supplier-btn").addClass("active");
       $("#manufacturer-btn").removeClass("active");
       $("#distributor-btn").removeClass("active");
       $("#retailer-btn").removeClass("active");
       $("#enquiry-btn").removeClass("active");
-      $("#approve-btn").removeClass("active");
+      $("#prove-btn").removeClass("active");
+      $("#check-btn").removeClass("active");
 
     });
 
@@ -75,14 +93,16 @@ App = {
       $("#distributor-form").hide();
       $("#retailer-form").hide();
       $("#enquiry-form").hide();
-      $("#approve-form").hide();
-     
+      $("#prove-form").hide();
+      $("#certificate-form").hide();
+
       $("#supplier-btn").removeClass("active");
       $("#manufacturer-btn").addClass("active");
       $("#distributor-btn").removeClass("active");
       $("#retailer-btn").removeClass("active");
       $("#enquiry-btn").removeClass("active");
-      $("#approve-btn").removeClass("active");
+      $("#prove-btn").removeClass("active");
+      $("#check-btn").removeClass("active");     
 
     });
 
@@ -93,14 +113,16 @@ App = {
       $("#distributor-form").show();
       $("#retailer-form").hide();
       $("#enquiry-form").hide();
-      $("#approve-form").hide();
+      $("#prove-form").hide();
+      $("#certificate-form").hide();
 
       $("#supplier-btn").removeClass("active");
       $("#manufacturer-btn").removeClass("active");
       $("#distributor-btn").addClass("active");
       $("#retailer-btn").removeClass("active");
       $("#enquiry-btn").removeClass("active");
-      $("#approve-btn").removeClass("active");
+      $("#prove-btn").removeClass("active");
+      $("#check-btn").removeClass("active");
 
     });
 
@@ -111,14 +133,16 @@ App = {
       $("#distributor-form").hide();
       $("#retailer-form").show();
       $("#enquiry-form").hide();
-      $("#approve-form").hide();
+      $("#prove-form").hide();
+      $("#certificate-form").hide();
 
       $("#supplier-btn").removeClass("active");
       $("#manufacturer-btn").removeClass("active");
       $("#distributor-btn").removeClass("active");
       $("#retailer-btn").addClass("active");
       $("#enquiry-btn").removeClass("active");
-      $("#approve-btn").removeClass("active");
+      $("#prove-btn").removeClass("active");
+      $("#check-btn").removeClass("active");
      
     });
 
@@ -129,41 +153,66 @@ App = {
       $("#distributor-form").hide();
       $("#retailer-form").hide();
       $("#enquiry-form").show();
-      $("#approve-form").hide();
+      $("#prove-form").hide();
+      $("#certificate-form").hide();
 
       $("#supplier-btn").removeClass("active");
       $("#manufacturer-btn").removeClass("active");
       $("#distributor-btn").removeClass("active");
       $("#retailer-btn").removeClass("active");
       $("#enquiry-btn").addClass("active");
-      $("#approve-btn").removeClass("active");
+      $("#prove-btn").removeClass("active");
+      $("#check-btn").removeClass("active");
      
     });
 
-    $("#approve-btn").on('click', function(){
+    $("#prove-btn").on('click', function(){
       $("#supplier-form").hide();
       $("#manufacturer-form").hide();
       $("#distributor-form").hide();
       $("#retailer-form").hide();
       $("#enquiry-form").hide();
-      $("#approve-form").show();
+      $("#prove-form").show();
+      $("#certificate-form").hide();
 
       $("#supplier-btn").removeClass("active");
       $("#manufacturer-btn").removeClass("active");
       $("#distributor-btn").removeClass("active");
       $("#retailer-btn").removeClass("active");
       $("#enquiry-btn").removeClass("active");
-      $("#approve-btn").addClass("active");
+      $("#prove-btn").addClass("active");
+      $("#check-btn").removeClass("active");
     });
+
+    $("#check-btn").on('click', function(){
+      $("#supplier-form").hide();
+      $("#manufacturer-form").hide();
+      $("#distributor-form").hide();
+      $("#retailer-form").hide();
+      $("#enquiry-form").hide();
+      $("#prove-form").hide();
+      $("#certificate-form").show();
+
+      $("#supplier-btn").removeClass("active");
+      $("#manufacturer-btn").removeClass("active");
+      $("#distributor-btn").removeClass("active");
+      $("#retailer-btn").removeClass("active");
+      $("#enquiry-btn").removeClass("active");
+      $("#prove-btn").removeClass("active");
+      $("#check-btn").addClass("active");
+    });
+
+
 
     $("#submit-s").on('click', App.setSupplier);
     $("#submit-m").on('click', App.setManufacturer);
     $("#submit-d").on('click', App.setDistributor);
     $("#submit-r").on('click', App.setRetailer);
-    $("#query").on('click', App.query);//get
-    $("#printBlock").on('click', App.printBlock);
-    $("#printTransaction").on('click', App.printTransaction);
-    $("#apporve").on('click', App.approve);//setQ
+    $("#query").on('click', App.query);
+    $("#printBlock").on('click', App.printBlk);
+    $("#printTransaction").on('click', App.printTrans);
+    $("#prove").on('click', App.prove);
+    $("#check").on('click', App.check);
 
   },
 
@@ -188,33 +237,33 @@ App = {
 
   // },
 
-  // handleAdopt: function(event) {
-  //   event.preventDefault();
+  handleAdopt: function(event) {
+    event.preventDefault();
 
-  //   var petId = parseInt($(event.target).data('id'));
+    var petId = parseInt($(event.target).data('id'));
 
-  //   /*
-  //    * Replace me...
-  //    */
-  //    var adoptionInstance;
+    /*
+     * Replace me...
+     */
+     var adoptionInstance;
 
-  //    web3.eth.getAccounts(function(error, accounts){
-  //       if (error) {
-  //         console.log(error);
-  //       }
+     web3.eth.getAccounts(function(error, accounts){
+        if (error) {
+          console.log(error);
+        }
 
-  //       var accounts = accounts[0];
+        var accounts = accounts[0];
 
-  //       App.contracts.Adoption.deployed().then(function(instance) {
-  //         adoptionInstance = instance;
-  //         return adoptionInstance.adopt(petId, {from: accounts});
-  //       }).then(function(result) {
-  //         return App.markAdopted();
-  //       }).catch(function(err){
-  //           console.log(err.message);
-  //       });
-  //    });
-  // }, 
+        App.contracts.Adoption.deployed().then(function(instance) {
+          adoptionInstance = instance;
+          return adoptionInstance.adopt(petId, {from: accounts});
+        }).then(function(result) {
+          return App.markAdopted();
+        }).catch(function(err){
+            console.log(err.message);
+        });
+     });
+  }, 
 
 
   setStatus: function(message, id){
@@ -231,23 +280,45 @@ App = {
     var contact = parseInt(document.getElementById("scontact").value);
     var exprice = parseInt(document.getElementById("sexprice").value);
 
-    setStatus("Initiating transaction... (please wait)", "status1");
+    var re = new RegExp("^[ ]*$");
+    if (re.test(sid) || re.test(sname) || re.test(loc) || re.test(material) || re.test(contact) || re.test(exprice)) {
+      alert("Please input all the data needed!");
+      return ;
+    }
+
+    var re1 = new RegExp("^[S]\\d+$");
+    if (!re1.test(sid)) {
+      alert("Please input a valid ID start with S!");
+      return ;
+    }
+
+    App.setStatus("Initiating transaction... (please wait)", "status1");
 
     var metaset;
-    App.contracts.StructStorage.deployed().then(function(instance) {
-      metaset = instance;
-      metaset.mat(sid,sname,loc,material,contact,exprice, {from: account,gas:400000});
-    }).then(function(){
-      setStatus("Transaction complete!", "status1");
-      $("#supplier-form").hide();
-      $("#manufacturer-form").show();
 
-      $("#supplier-btn").removeClass("active");
-      $("#manufacturer-btn").addClass("active");
-    }).catch(function(e) {
-      console.log(e);
-      setStatus("Error setting value; see log.", "status1");
+    web3.eth.getAccounts(function(error, accounts){
+      if (error) {
+        console.log(error);
+      }
+
+      var account = accounts[0];
+
+      App.contracts.StructStorage.deployed().then(function(instance) {
+        metaset = instance;
+        metaset.mat(sid,sname,loc,material,contact,exprice, {from: account, gas:400000});
+      }).then(function(){
+        App.setStatus("Transaction complete!", "status1");
+        $("#supplier-form").hide();
+        $("#manufacturer-form").show();
+
+        $("#supplier-btn").removeClass("active");
+        $("#manufacturer-btn").addClass("active");
+      }).catch(function(e) {
+        console.log(e);
+        App.setStatus("Error setting value; see log.", "status1");
+      });
     });
+ 
   },
 
   setManufacturer: function() {
@@ -259,22 +330,44 @@ App = {
     var mcontact = parseInt(document.getElementById("mcontact").value);
     var mexprice = parseInt(document.getElementById("mexprice").value);
 
-    setStatus("Initiating transaction... (please wait)", "status2");
+    var re = new RegExp("^[ ]*$");
+    if (re.test(mid) || re.test(mname) || re.test(mloc) || re.test(mproduct) || re.test(mcontact) || re.test(mexprice)) {
+      alert("Please input all the data needed!");
+      return ;
+    }
+
+    var re1 = new RegExp("^[M]\\d+$");
+    if (!re1.test(mid)) {
+      alert("Please input a valid ID start with M!");
+      return ;
+    }
+
+
+    App.setStatus("Initiating transaction... (please wait)", "status2");
 
     var metaset;
-    App.contracts.StructStorage.deployed().then(function(instance) {
-      metaset = instance;
-      metaset.pro(mid,mname,mloc,mproduct,mcontact,mexprice, {from: account,gas:400000});
-    }).then(function() {
-      setStatus("Transaction complete!", "status2");
-      $("#manufacturer-form").hide();
-      $("#distributor-form").show();
 
-      $("#manufacturer-btn").removeClass("active");
-      $("#distributor-btn").addClass("active");
-    }).catch(function(e) {
-      console.log(e);
-      setStatus("Error setting value; see log.", "status2");
+    web3.eth.getAccounts(function(error, accounts){
+      if (error) {
+        console.log(error);
+      }
+
+      var account = accounts[0];
+
+      App.contracts.StructStorage.deployed().then(function(instance) {
+        metaset = instance;
+        metaset.pro(mid,mname,mloc,mproduct,mcontact,mexprice, {from: account, gas:400000});
+      }).then(function() {
+        App.setStatus("Transaction complete!", "status2");
+        $("#manufacturer-form").hide();
+        $("#distributor-form").show();
+
+        $("#manufacturer-btn").removeClass("active");
+        $("#distributor-btn").addClass("active");
+      }).catch(function(e) {
+        console.log(e);
+        App.setStatus("Error setting value; see log.", "status2");
+      });
     });
 
   },
@@ -288,22 +381,43 @@ App = {
     var origin = document.getElementById("origin").value;
     var destination = document.getElementById("destination").value;
 
-    setStatus("Initiating transaction... (please wait)", "status3");
+    var re = new RegExp("^[ ]*$");
+    if (re.test(did) || re.test(dname) || re.test(dproduct) || re.test(dcontact) || re.test(origin) || re.test(destination)) {
+      alert("Please input all the data needed!");
+      return ;
+    }
+
+    var re1 = new RegExp("^[D]\\d+$");
+    if (!re1.test(did)) {
+      alert("Please input a valid ID start with D!");
+      return ;
+    }
+
+    App.setStatus("Initiating transaction... (please wait)", "status3");
 
     var metaset;
-    App.contracts.StructStorage.deployed().then(function(instance) {
-      metaset = instance;
-      metaset.ship_info(did,dname,dproduct,dproduct,origin, destination, {from: account,gas:400000});
-    }).then(function() {
-      setStatus("Transaction complete!", "status3");
-      $("#distributor-form").hide();
-      $("#retailer-form").show();
 
-      $("#distributor-btn").removeClass("active");
-      $("#retailer-btn").addClass("active");
-    }).catch(function(e) {
-      console.log(e);
-      setStatus("Error setting value; see log.", "status3");
+    web3.eth.getAccounts(function(error, accounts){
+      if (error) {
+        console.log(error);
+      }
+
+      var account = accounts[0];
+
+      App.contracts.StructStorage.deployed().then(function(instance) {
+        metaset = instance;
+        metaset.ship_info(did,dname,dproduct,dcontact,origin, destination, {from: account, gas:400000});
+      }).then(function() {
+        App.setStatus("Transaction complete!", "status3");
+        $("#distributor-form").hide();
+        $("#retailer-form").show();
+
+        $("#distributor-btn").removeClass("active");
+        $("#retailer-btn").addClass("active");
+      }).catch(function(e) {
+        console.log(e);
+        App.setStatus("Error setting value; see log.", "status3");
+      });
     });
 
   },
@@ -317,22 +431,43 @@ App = {
     var rcontact = parseInt(document.getElementById("rcontact").value);
     var rexprice = parseInt(document.getElementById("rexprice").value);
 
-    setStatus("Initiating transaction... (please wait)", "status4");
+    var re = new RegExp("^[ ]*$");
+    if (re.test(rid) || re.test(rname) || re.test(rloc) || re.test(rproduct) || re.test(rcontact) || re.test(rexprice)) {
+      alert("Please input all the data needed!");
+      return ;
+    }
+
+    var re1 = new RegExp("^[R]\\d+$");
+    if (!re1.test(rid)) {
+      alert("Please input a valid ID start with R!");
+      return ;
+    }
+
+    App.setStatus("Initiating transaction... (please wait)", "status4");
 
     var metaset;
-    App.contracts.StructStorage.deployed().then(function(instance) {
-      metaset = instance;
-      metaset.goods( rid,rname,rloc,rproduct,rcontact,rexprice, {from: account,gas:400000});
-    }).then(function() {
-      setStatus("Transaction complete!", "status4");
-      $("#retailer-form").hide();
-      $("#enquiry-form").show();
 
-      $("#retailer-btn").removeClass("active");
-      $("#enquiry-btn").addClass("active");
-    }).catch(function(e) {
-      console.log(e);
-      setStatus("Error setting value; see log.", "status4");
+    web3.eth.getAccounts(function(error, accounts){
+      if (error) {
+        console.log(error);
+      }
+
+      var account = accounts[0];
+
+      App.contracts.StructStorage.deployed().then(function(instance) {
+        metaset = instance;
+        metaset.goods( rid,rname,rloc,rproduct,rcontact,rexprice, {from: account,gas:400000});
+      }).then(function() {
+        App.setStatus("Transaction complete!", "status4");
+        $("#retailer-form").hide();
+        $("#enquiry-form").show();
+
+        $("#retailer-btn").removeClass("active");
+        $("#enquiry-btn").addClass("active");
+      }).catch(function(e) {
+        console.log(e);
+        App.setStatus("Error setting value; see log.", "status4");
+      });
     });
 
   },
@@ -341,7 +476,13 @@ App = {
 
     var id = document.getElementById("id1").value;
 
-    setStatus("Initiating transaction... (please wait)", "status5");
+    var re = new RegExp("^[MSRD]\\d+$");
+    if (!re.test(id)) {
+      alert("Please input a valid ID!");
+      return ;
+    }
+
+    App.setStatus("Initiating transaction... (please wait)", "status5");
 
     var metaget;
 
@@ -357,78 +498,40 @@ App = {
           metaget = instance;
           return metaget.getmat.call(id, {from: account});
         }).then(function(value) {
-          var span_element2 = document.getElementById("getval2");
-          var str = web3.toAscii(value[1]);
-          span_element2.innerHTML = str;
-
-          var span_element3 = document.getElementById("getval3");
-          var str = web3.toAscii(value[2]);
-          span_element3.innerHTML = str;  
-       
-          var str = web3.toAscii(value[3]);
-          var span_element4 = document.getElementById("getval4");
-          span_element4.innerHTML = str;
-
-          var span_element5 = document.getElementById("getval5");
-          span_element5.innerHTML = value[4].valueOf();
-
-          var span_element6 = document.getElementById("getval6");
-          span_element6.innerHTML = value[5].valueOf();
-       
-          setStatus("Transaction complete!", "status5");
+          App.getinfo(value);
         }).catch(function(e) {
           console.log(e);
-          setStatus("Error getting value; see log.", "status5");
+          App.setStatus("Error getting value; see log.", "status5");
         });
       } else if (id.startsWith('M')) {
         App.contracts.StructStorage.deployed().then(function(instance) {
           metaget = instance;
           return metaget.getpro.call(id, {from: account});
-        }).then(function(value) {
-          var span_element2 = document.getElementById("getval2");
-          var str = web3.toAscii(value[1]);
-          span_element2.innerHTML = str;
-
-          var span_element3 = document.getElementById("getval3");
-          var str = web3.toAscii(value[2]);
-          span_element3.innerHTML = str;  
-       
-          var str = web3.toAscii(value[3]);
-          var span_element4 = document.getElementById("getval4");
-          span_element4.innerHTML = str;
-
-          var span_element5 = document.getElementById("getval5");
-          span_element5.innerHTML = value[4].valueOf();
-
-          var span_element6 = document.getElementById("getval6");
-          span_element6.innerHTML = value[5].valueOf();
-       
-          setStatus("Transaction complete!", "status5");
+        }).then(function(value){
+          App.getinfo(value);
         }).catch(function(e) {
           console.log(e);
-          setStatus("Error getting value; see log.", "status5");
+          App.setStatus("Error getting value; see log.", "status5");
         });
       } else if (id.startsWith('D')) {
         App.contracts.StructStorage.deployed().then(function(instance) {
           metaget = instance;
           return metaget.getshipinfo.call(id, {from: account});
         }).then(function(value) {
-          var label_element4 = document.getElementById("label4");
-          var str = web3.toAscii("Origin");
-          label_element4.innerHTML = str;
 
-          var label_element5 = document.getElementById("label5");
-          str = web3.toAscii("Destination");
-          label_element5.innerHTML = str;
-
-
+          var str = web3.toAscii(value[1]);
           var span_element2 = document.getElementById("getval2");
-          str = web3.toAscii(value[1]);
           span_element2.innerHTML = str;
 
           var span_element3 = document.getElementById("getval3");
           str = web3.toAscii(value[4]);
           span_element3.innerHTML = str;  
+
+          var label_element4 = document.getElementById("label4");
+          label_element4.innerHTML = "Origin";
+
+          var label_element5 = document.getElementById("label5");
+          label_element5.innerHTML = "Destination";
        
           var span_element4 = document.getElementById("getval4");
           str = web3.toAscii(value[2]);
@@ -438,50 +541,67 @@ App = {
           span_element5.innerHTML = value[3].valueOf();
 
           var span_element6 = document.getElementById("getval6");
-          span_element6.innerHTML = value[5].valueOf();
+          str = web3.toAscii(value[5]);
+          span_element6.innerHTML = str;
        
-          setStatus("Transaction complete!", "status5");
+          App.setStatus("Transaction complete!", "status5");
         }).catch(function(e) {
           console.log(e);
-          setStatus("Error getting value; see log.", "status5");
+          App.setStatus("Error getting value; see log.", "status5");
         });
       } else if (id.startsWith('R')) {
         App.contracts.StructStorage.deployed().then(function(instance) {
           metaget = instance;
           return metaget.getgoods.call(id, {from: account});
         }).then(function(value) {
-          var span_element2 = document.getElementById("getval2");
-          var str = web3.toAscii(value[1]);
-          span_element2.innerHTML = str;
-
-          var span_element3 = document.getElementById("getval3");
-          var str = web3.toAscii(value[2]);
-          span_element3.innerHTML = str;  
-       
-          var str = web3.toAscii(value[3]);
-          var span_element4 = document.getElementById("getval4");
-          span_element4.innerHTML = str;
-
-          var span_element5 = document.getElementById("getval5");
-          span_element5.innerHTML = value[4].valueOf();
-
-          var span_element6 = document.getElementById("getval6");
-          span_element6.innerHTML = value[5].valueOf();
-       
-          setStatus("Transaction complete!", "status5");
+          App.getinfo(value);
         }).catch(function(e) {
           console.log(e);
-          setStatus("Error getting value; see log.", "status5");
+          App.setStatus("Error getting value; see log.", "status5");
         });
-      } else {
-        console.log("NO SUCH ID!");
-        setStatus("Error getting value; see log.", "status5");
       }
     });
 
   },
 
-  apporve: function() {
+  getinfo: function(value) {
+    var str = web3.toAscii(value[1]);
+    var span_element2 = document.getElementById("getval2");
+    span_element2.innerHTML = str;
+
+    var span_element3 = document.getElementById("getval3");
+    var str = web3.toAscii(value[2]);
+    span_element3.innerHTML = str;  
+
+    var label_element4 = document.getElementById("label4");
+    label_element4.innerHTML = "Location";
+
+    var label_element5 = document.getElementById("label5");
+    label_element5.innerHTML = "Expected Price";
+ 
+    var str = web3.toAscii(value[3]);
+    var span_element4 = document.getElementById("getval4");
+    span_element4.innerHTML = str;
+
+    var span_element5 = document.getElementById("getval5");
+    str = value[4].valueOf();
+    if (str == 0)
+      str = ""
+    span_element5.innerHTML = str;
+
+    var span_element6 = document.getElementById("getval6");
+    str = value[5].valueOf();
+    if (str == 0)
+      str = ""
+    span_element6.innerHTML = str;
+
+    if (str)
+      App.setStatus("Transaction complete!", "status5");
+    else 
+      App.setStatus("No such ID!", "status5");
+  },
+
+  prove: function() {
 
     var lotno = document.getElementById("lotno").value;
     var grade = document.getElementById("grade").value;
@@ -489,7 +609,13 @@ App = {
     var testdate = document.getElementById("testdate").value;
     var expdate = document.getElementById("expdate").value;
 
-    setStatus("Initiating transaction... (please wait)", "status5");
+    var re = new RegExp("^[ ]*$");
+    if (re.test(lotno) || re.test(grade) || re.test(mrp) || re.test(testdate) || re.test(expdate)) {
+      alert("Please input all the data needed!");
+      return ;
+    }
+
+    App.setStatus("Initiating transaction... (please wait)", "status5");
 
     var metaset;
 
@@ -504,30 +630,87 @@ App = {
         metaset = instance;
         metaset.quality( lotno,grade,mrp,testdate,expdate, {from: account,gas:400000});
       }).then(function() {
-        setStatus("Transaction complete!", "status5");
+        App.setStatus("Transaction complete!", "status5");
       
         $("#supplier-form").hide();
         $("#manufacturer-form").hide();
         $("#distributor-form").hide();
         $("#retailer-form").hide();
         $("#enquiry-form").show();
-        $("#approve-form").hide();
+        $("#prove-form").hide();
 
         $("#supplier-btn").removeClass("active");
         $("#manufacturer-btn").removeClass("active");
         $("#distributor-btn").removeClass("active");
         $("#retailer-btn").removeClass("active");
         $("#enquiry-btn").addClass("active");
-        $("#approve-btn").removeClass("active");
+        $("#prove-btn").removeClass("active");
       }).catch(function(e) {
         console.log(e);
-        setStatus("Error setting value; see log.", "status5");
+        App.setStatus("Error setting value; see log.", "status5");
       });
     });
-
+  
   },
 
-  printBlock: function() {
+  check: function() {
+    var lotno = document.getElementById("lotnum").value;
+
+    var re = new RegExp("^[ ]*$");
+    if (re.test(lotno)) {
+      alert("Please input a valid LoT No.!");
+      return ;
+    }
+
+    App.setStatus("Initiating transaction... (please wait)", "status6");
+
+    var metaget;
+
+    web3.eth.getAccounts(function(error, accounts){
+      if (error) {
+        console.log(error);
+      }
+
+      var account = accounts[0];
+
+      App.contracts.StructStorage.deployed().then(function(instance) {
+        metaget = instance;
+        return metaget.getcert.call(lotno, {from: account});
+      }).then(function(value) {
+        var str = web3.toAscii(value[0]);
+        if (!str) {
+          console.log("NO SUCH LoT No.!");
+          App.setStatus("Error occurred; see log.", "status6");
+          return;
+        }
+        var span_element1 = document.getElementById("cgetval1");
+        span_element1.innerHTML = str;
+
+        var span_element2 = document.getElementById("cgetval2");
+        str = web3.toAscii(value[1]);
+        span_element2.innerHTML = str;  
+     
+        var span_element3 = document.getElementById("cgetval3");
+        span_element3.innerHTML = value[2].valueOf();
+
+        var span_element4 = document.getElementById("cgetval4");
+        str = web3.toAscii(value[3]);
+        span_element4.innerHTML = str;
+
+        var span_element5 = document.getElementById("cgetval5");
+        str = web3.toAscii(value[4]);
+        span_element5.innerHTML = str;
+
+        App.setStatus("Transaction complete!", "status6");
+      }).catch(function(e) {
+        console.log(e);
+        App.setStatus("Error occurred; see log.", "status6");
+      }); 
+
+    });
+  },
+
+  printBlk: function() {
     
     var block = web3.eth.blockNumber;
     console.log("Block number     : " + web3.eth.blockNumber + "\n"
@@ -551,7 +734,7 @@ App = {
       if (web3.eth.getBlock(block).transactions != null) {
           console.log("--- transactions ---");
           web3.eth.getBlock(block).transactions.forEach( function(e) {
-              printTransaction(e);
+              App.printTrans(e);
           })
       }
       
@@ -559,7 +742,7 @@ App = {
       blocknum.innerHTML = block.valueOf();
   },
 
-  printTransaction: function(txHash) {
+  printTrans: function(txHash) {
     
     var txHash = web3.eth.getBlock("latest").transactions[0];
     var tx = web3.eth.getTransaction(txHash);
@@ -583,6 +766,14 @@ App = {
 
 $(function() {
   $(window).load(function() {
+    $("#manufacturer-form").hide();
+    $("#distributor-form").hide();
+    $("#retailer-form").hide();
+    $("#enquiry-form").hide();
+    $("#prove-form").hide();
+    $("#certificate-form").hide();
+
     App.init();
   });
 });
+

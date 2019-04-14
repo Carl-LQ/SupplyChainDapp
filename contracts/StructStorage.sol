@@ -7,29 +7,7 @@ contract StructStorage {
     uint public d = 1;
     uint public r = 1;
     uint public t = 1;
-    uint c;
 
-    // mapping (address => uint) balances;
-
-    // function fundaddr(address addr) public{
-    //     balances[addr] = 2000;
-    // }
-
-    // function sendCoin(address receiver, uint amount, address sender) public returns(bool sufficient){
-        
-    //     if (balances[sender] < amount) 
-    //         return false;
-
-    //     balances[sender] -= amount;
-    //     balances[receiver] += amount;
-        
-                        
-    //     return true;
-    // }
-
-    // function getBalance(address addr) view public returns(uint) {
-    //     return balances[addr];
-    // }
 
     struct supplier {
         bytes sid;
@@ -114,9 +92,9 @@ contract StructStorage {
         m++;
     }
 
-    function ship_info(bytes memory did, bytes32 dname, bytes32 spro, uint dcon, bytes32 org, bytes32 dst) public {
+    function ship_info(bytes memory did, bytes32 dname, bytes32 dpro, uint dcon, bytes32 org, bytes32 dst) public {
         
-        StructStorage.distributor memory dnew = distributor(did, dname, spro, dcon, org, dst);
+        StructStorage.distributor memory dnew = distributor(did, dname, dpro, dcon, org, dst);
         d1[did] = dnew;
         db.push(dnew);
         ++d;
@@ -149,16 +127,13 @@ contract StructStorage {
 
 
     function quality(bytes memory ll, bytes memory g, uint p, bytes32 tt, bytes32 e) public{
-        
         StructStorage.lot memory lnew=lot(ll,g,p,tt,e);
         l1[ll]=lnew;
         l.push(lnew);
         t++;
-      
     }
 
-    // function getquality(bytes memory k) public view returns(bytes memory,bytes memory,uint,bytes32,bytes32) {
-    //     return(l1[k].lotno, l1[k].grade, l1[k].mrp, l1[k].testdate, l1[k].expdate);
-         
-    // }
+    function getcert(bytes memory k) public view returns(bytes memory,bytes memory,uint,bytes32,bytes32) {
+        return(l1[k].lotno, l1[k].grade, l1[k].mrp, l1[k].testdate, l1[k].expdate);
+    }
 }
