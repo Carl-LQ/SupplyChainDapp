@@ -216,56 +216,6 @@ App = {
 
   },
 
-  // markAdopted: function(adopters, account) {
-  //   /*
-  //    * Replace me...
-  //    */ 
-  //    var adoptionInstance;
-
-  //    App.contracts.Adoption.deployed().then(function(instance) {
-  //       adoptionInstance = instance;
-  //       return adoptionInstance.getAdoptors.call();
-  //    }).then(function(adoptors) {
-  //       for (i = 0; i < adopters.length; i++) {
-  //         if (adopters[i] !== '0x0000000000000000000000000000000000000000') {
-  //           $('.panel-pet').eq(i).find('button').text('Success').attr('disable', true);
-  //         }
-  //       }
-  //    }).catch(function(err) {
-  //       console.log(err.message);
-  //    });
-
-  // },
-
-  handleAdopt: function(event) {
-    event.preventDefault();
-
-    var petId = parseInt($(event.target).data('id'));
-
-    /*
-     * Replace me...
-     */
-     var adoptionInstance;
-
-     web3.eth.getAccounts(function(error, accounts){
-        if (error) {
-          console.log(error);
-        }
-
-        var accounts = accounts[0];
-
-        App.contracts.Adoption.deployed().then(function(instance) {
-          adoptionInstance = instance;
-          return adoptionInstance.adopt(petId, {from: accounts});
-        }).then(function(result) {
-          return App.markAdopted();
-        }).catch(function(err){
-            console.log(err.message);
-        });
-     });
-  }, 
-
-
   setStatus: function(message, id){
     var status = document.getElementById(id);
     status.innerHTML = message;
